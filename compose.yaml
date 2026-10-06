@@ -8,6 +8,7 @@ services:
       DJANGO_DEBUG: ${DJANGO_DEBUG:-true}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
     volumes:
+      - .:/app
       - sqlite_data:/app/data
 
 volumes:
