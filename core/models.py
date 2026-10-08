@@ -27,6 +27,10 @@ class Ingredient(models.Model):
 
 
 class Step(models.Model):
+    class Type(models.TextChoices):
+        PREP = "PREP", "Prep"
+        COOK = "COOK", "Cook"
+
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
@@ -34,6 +38,9 @@ class Step(models.Model):
     )
     order = models.PositiveIntegerField()
     instruction = models.TextField()
+    additional_info = models.TextField()
+    duration = models.IntegerField()
+    type = models.CharField(max_length=4, choices=Type.choices)
 
     class Meta:
         ordering = ["order"]
