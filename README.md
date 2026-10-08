@@ -22,6 +22,10 @@ docker compose exec web python manage.py createsuperuser
 
 Sign in at [http://localhost:8000/admin/](http://localhost:8000/admin/). Recipes, ingredients, and steps are available there; ingredients and steps can also be added inline while editing a recipe.
 
+## Templates
+
+Pages extend `templates/base.jinja`, which includes the shared header and footer. Page-specific content goes in a `{% block content %}`; reusable snippets live in `templates/components/`. The recipe detail page is `templates/recipes/recipe.jinja`.
+
 To stop the app, press `Ctrl+C`; to remove the container while keeping the database, run `docker compose down`.
 
 ## Configuration
