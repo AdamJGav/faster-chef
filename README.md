@@ -12,6 +12,16 @@ docker compose up --build
 
 Open [http://localhost:8000](http://localhost:8000). Django applies database migrations when the container starts. SQLite data is stored in the `sqlite_data` Docker volume and persists when the container is recreated.
 
+## Django admin
+
+Create an administrator account in the running container:
+
+```sh
+docker compose exec web python manage.py createsuperuser
+```
+
+Sign in at [http://localhost:8000/admin/](http://localhost:8000/admin/). Recipes, ingredients, and steps are available there; ingredients and steps can also be added inline while editing a recipe.
+
 To stop the app, press `Ctrl+C`; to remove the container while keeping the database, run `docker compose down`.
 
 ## Configuration
