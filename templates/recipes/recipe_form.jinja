@@ -1,10 +1,31 @@
 {% extends "base.jinja" %}
 
-{% block title %}{{ recipe.name }} | Faster Chef{% endblock %}
+{% block title %}{{ recipe.name if recipe else "New recipe" }} | Faster Chef{% endblock %}
 {% block meta_description %}{{ recipe.description or recipe.name }}{% endblock %}
 
 {% block content %}
   <section>
-    <p>testing form page</p>
+    <form method="post">
+      {{ csrf_input }}
+      
+        {% for field in form %}
+          <div>
+            <label for="{{ field.id_for_label }}"
+                  class="block text-sm font-medium text-stone-700">
+              {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            {% for error in field.errors %}
+              <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+      <button type="submit" class="rounded-lg bg-orange-600 px-4 py-2 font-semibold text-white hover:bg-orange-700">
+        {{ "Update" if recipe else "Create" }} recipe
+      </button>
+    </form>
   </section>
 {% endblock %}

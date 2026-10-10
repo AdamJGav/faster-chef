@@ -1,5 +1,6 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
+from core.forms import RecipeForm
 from core.models import Recipe
 
 
@@ -29,18 +30,24 @@ def recipe(request, recipe_id):
 
 def recipe_form(request, recipe_id=None):
 
-    if (recipe_id is None):
-        recipe = []
+    # get existing recipe for edit
+    recipe = (
+        get_object_or_404(Recipe, id=recipe_id)
+        if recipe_id is not None
+        else None
+    )
+
+    if request.method == "POST":
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            saved_recipe = form.save()
+            return redirect("recipe", recipe_id=saved_recipe.id)
     else:
-        # get existing recipe for edit
-        recipe = get_object_or_404(
-            Recipe.objects.prefetch_related("ingredients", "steps"),
-            id=recipe_id,
-        )
+        form = RecipeForm(instance=recipe)
 
     return render(
         request,
         "recipes/recipe_form.jinja",
         using="jinja2",
-        context={"recipe": recipe}
+        context={"form": form, "recipe": recipe}
     )
