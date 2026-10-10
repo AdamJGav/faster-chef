@@ -26,3 +26,21 @@ def recipe(request, recipe_id):
         using="jinja2",
         context={"recipe": recipe},
     )
+
+def recipe_form(request, recipe_id=None):
+
+    if (recipe_id is None):
+        recipe = []
+    else:
+        # get existing recipe for edit
+        recipe = get_object_or_404(
+            Recipe.objects.prefetch_related("ingredients", "steps"),
+            id=recipe_id,
+        )
+
+    return render(
+        request,
+        "recipes/recipe_form.jinja",
+        using="jinja2",
+        context={"recipe": recipe}
+    )
